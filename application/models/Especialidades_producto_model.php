@@ -24,6 +24,10 @@ class Especialidades_producto_model extends CI_Model
      */
     function get_all_especialidades_productos()
     {
+        $this->db->select('especialidades_productos.id_especialidad_producto,productos.nombre as nombre_producto, especialidades_productos.cantidad,especialidades.nombre AS nombre_especialidad');
+        $this->db->join('productos', 'productos.id_producto = especialidades_productos.id_producto');
+        $this->db->join('especialidades', 'especialidades.id_especialidad = especialidades_productos.id_especialidad');
+
         $this->db->order_by('id_especialidad_producto', 'desc');
         return $this->db->get('especialidades_productos')->result_array();
     }

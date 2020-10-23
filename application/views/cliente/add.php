@@ -7,6 +7,13 @@
             <?php echo form_open('cliente/add'); ?>
           	<div class="box-body">
           		<div class="row clearfix">
+				  <div class="col-md-6">
+						<label for="nombre" class="control-label"><span class="text-danger">*</span>DNI</label>
+						<div class="form-group">
+							<input type="text" name="dni" value="<?php echo $this->input->post('dni'); ?>" class="form-control" id="dni" />
+							<span class="text-danger"><?php echo form_error('dni');?></span>
+						</div>
+					</div>
 					<div class="col-md-6">
 						<label for="nombre" class="control-label"><span class="text-danger">*</span>Nombre</label>
 						<div class="form-group">

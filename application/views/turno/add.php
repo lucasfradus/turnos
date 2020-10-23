@@ -10,7 +10,7 @@
 					<div class="col-md-6">
 						<label for="id_especialidad" class="control-label"><span class="text-danger">*</span>Especialidade</label>
 						<div class="form-group">
-							<select name="id_especialidad" class="form-control">
+							<select name="id_especialidad" class="form-control" id="especialidad">
 								<option value="">select especialidade</option>
 								<?php 
 								foreach($all_especialidades as $especialidade)
@@ -48,6 +48,14 @@
 							<span class="text-danger"><?php echo form_error('fecha');?></span>
 						</div>
 					</div>
+					<div class="col-md-6">
+						<label for="fecha" class="control-label">Productos Necesarios</label>
+						<div class="form-group">
+							<span class="text-success" id="prods">
+
+							</span>
+						</div>
+					</div>
 				</div>
 			</div>
           	<div class="box-footer">
@@ -59,3 +67,4 @@
       	</div>
     </div>
 </div>
+

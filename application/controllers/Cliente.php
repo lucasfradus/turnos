@@ -29,6 +29,7 @@ class Cliente extends CI_Controller{
     {   
         $this->load->library('form_validation');
 
+		$this->form_validation->set_rules('dni','DNI','required|is_unique[clientes.dni]');
 		$this->form_validation->set_rules('nombre','Nombre','required');
 		$this->form_validation->set_rules('apellido','Apellido','required');
 		$this->form_validation->set_rules('email','Email','valid_email');

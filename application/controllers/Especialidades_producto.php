@@ -9,5 +9,118 @@ class Especialidades_producto extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('Especialidades_producto_model');
+    } 
+
+    /*
+     * Listing of especialidades_productos
+     */
+    function index()
+    {
+        $data['especialidades_productos'] = $this->Especialidades_producto_model->get_all_especialidades_productos();
+        
+        $data['_view'] = 'especialidades_producto/index';
+        $this->load->view('layouts/main',$data);
     }
+
+    /*
+     * Adding a new especialidades_producto
+     */
+    function add()
+    {   
+        $this->load->library('form_validation');
+
+		$this->form_validation->set_rules('id_especialidad','Id Especialidad','required');
+		$this->form_validation->set_rules('id_producto','Id Producto','required');
+		
+		if($this->form_validation->run())     
+        {   
+            $params = array(
+				'id_especialidad' => $this->input->post('id_especialidad'),
+				'id_producto' => $this->input->post('id_producto'),
+				'cantidad' => $this->input->post('cantidad'),
+            );
+            
+            $especialidades_producto_id = $this->Especialidades_producto_model->add_especialidades_producto($params);
+            redirect('especialidades_producto/index');
+        }
+        else
+        {
+			$this->load->model('Especialidade_model');
+			$data['all_especialidades'] = $this->Especialidade_model->get_all_especialidades();
+
+			$this->load->model('Producto_model');
+			$data['all_productos'] = $this->Producto_model->get_all_productos();
+            
+            $data['_view'] = 'especialidades_producto/add';
+            $this->load->view('layouts/main',$data);
+        }
+    }  
+
+    /*
+     * Editing a especialidades_producto
+     */
+    function edit($id_especialidad_producto)
+    {   
+        // check if the especialidades_producto exists before trying to edit it
+        $data['especialidades_producto'] = $this->Especialidades_producto_model->get_especialidades_producto($id_especialidad_producto);
+        
+        if(isset($data['especialidades_producto']['id_especialidad_producto']))
+        {
+            $this->load->library('form_validation');
+
+			$this->form_validation->set_rules('id_especialidad','Id Especialidad','required');
+			$this->form_validation->set_rules('id_producto','Id Producto','required');
+		
+			if($this->form_validation->run())     
+            {   
+                $params = array(
+					'id_especialidad' => $this->input->post('id_especialidad'),
+					'id_producto' => $this->input->post('id_producto'),
+					'cantidad' => $this->input->post('cantidad'),
+                );
+
+                $this->Especialidades_producto_model->update_especialidades_producto($id_especialidad_producto,$params);            
+                redirect('especialidades_producto/index');
+            }
+            else
+            {
+				$this->load->model('Especialidade_model');
+				$data['all_especialidades'] = $this->Especialidade_model->get_all_especialidades();
+
+				$this->load->model('Producto_model');
+				$data['all_productos'] = $this->Producto_model->get_all_productos();
+
+                $data['_view'] = 'especialidades_producto/edit';
+                $this->load->view('layouts/main',$data);
+            }
+        }
+        else
+            show_error('The especialidades_producto you are trying to edit does not exist.');
+    } 
+
+    /*
+     * Deleting especialidades_producto
+     */
+    function remove($id_especialidad_producto)
+    {
+        $especialidades_producto = $this->Especialidades_producto_model->get_especialidades_producto($id_especialidad_producto);
+
+        // check if the especialidades_producto exists before trying to delete it
+        if(isset($especialidades_producto['id_especialidad_producto']))
+        {
+            $this->Especialidades_producto_model->delete_especialidades_producto($id_especialidad_producto);
+            redirect('especialidades_producto/index');
+        }
+        else
+            show_error('The especialidades_producto you are trying to delete does not exist.');
+    }
+
+    public function get_productos(){
+                // POST data
+                $postData = $this->input->post();
+
+                $data = array('producto' => 'anteojos');
+                echo json_encode($data);
+    }
+    
 }
